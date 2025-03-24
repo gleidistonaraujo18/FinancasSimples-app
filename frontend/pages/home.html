@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home - Finanças Simples</title>
+    <link href="../assets/css/bootstrap.css" rel="stylesheet" />
+    <style>
+      body {
+        background-color: #f8f9fa;
+      }
+      .navbar {
+        background-color: #343a40;
+      }
+      .navbar-brand,
+      .nav-link {
+        color: white !important;
+      }
+      .card {
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .card-title {
+        color: #343a40;
+      }
+      .container {
+        margin-top: 50px;
+      }
+      .footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #343a40;
+        color: white;
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Finanças Simples</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            
+            <li class="nav-item">
+              <a class="nav-link" href="#">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Resumo de Finanças</h5>
+              <p class="card-text">Veja um resumo completo das suas finanças, com receitas e despesas.</p>
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#resumoModal">Ver Resumo</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Adicionar Nova Receita</h5>
+              <p class="card-text">Registre uma nova entrada de receita para o seu orçamento.</p>
+              <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#adicionarReceitaModal">Adicionar Receita</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Adicionar Nova Despesa</h5>
+              <p class="card-text">Registre uma nova despesa para controlar seus gastos.</p>
+              <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#adicionarDespesaModal">Adicionar Despesa</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Últimas Operações</h5>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Data</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Tipo</th>
+                  </tr>
+                </thead>
+                <tbody id="tabelaOperacoes">
+                  <tr>
+                    <td>2025-03-23</td>
+                    <td>Compra de Material</td>
+                    <td>R$ 150,00</td>
+                    <td>Despesa</td>
+                  </tr>
+                  <tr>
+                    <td>2025-03-24</td>
+                    <td>Venda de Produto</td>
+                    <td>R$ 300,00</td>
+                    <td>Receita</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modals -->
+
+  <!-- Modal Resumo de Finanças -->
+<div class="modal fade" id="resumoModal" tabindex="-1" aria-labelledby="resumoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="resumoModalLabel">Resumo de Finanças</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <!-- Resumo de Finanças -->
+            <div class="col-lg-4">
+              <h6>Receitas</h6>
+              <p class="fs-4 text-success">R$ 2.000,00</p>
+            </div>
+            <div class="col-lg-4">
+              <h6>Despesas</h6>
+              <p class="fs-4 text-danger">R$ 1.500,00</p>
+            </div>
+            <div class="col-lg-4">
+              <h6>Saldo</h6>
+              <p class="fs-4 text-primary">R$ 500,00</p>
+            </div>
+          </div>
+          
+          <!-- Gráfico de Barras (Receitas vs Despesas) -->
+          <div class="row">
+            <div class="col-12">
+              <canvas id="financasChart" width="400" height="200"></canvas>
+            </div>
+          </div>
+  
+          <div class="row mt-4">
+            <div class="col-12">
+              <h6>Resumo Mensal</h6>
+              <p>O gráfico acima mostra a comparação entre as receitas e despesas do mês.</p>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+    <!-- Modal Adicionar Receita -->
+    <div class="modal fade" id="adicionarReceitaModal" tabindex="-1" aria-labelledby="adicionarReceitaModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="adicionarReceitaModalLabel">Adicionar Receita</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="adicionarReceitaForm">
+              <div class="mb-3">
+                <label for="descricaoReceita" class="form-label">Descrição</label>
+                <input type="text" class="form-control" id="descricaoReceita" placeholder="Ex: Venda de Produto" required />
+              </div>
+              <div class="mb-3">
+                <label for="valorReceita" class="form-label">Valor</label>
+                <input type="number" class="form-control" id="valorReceita" placeholder="R$ 100,00" required />
+              </div>
+              <button type="submit" class="btn btn-success">Salvar Receita</button>
+            </form>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Adicionar Despesa -->
+    <div class="modal fade" id="adicionarDespesaModal" tabindex="-1" aria-labelledby="adicionarDespesaModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="adicionarDespesaModalLabel">Adicionar Despesa</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="adicionarDespesaForm">
+              <div class="mb-3">
+                <label for="descricaoDespesa" class="form-label">Descrição</label>
+                <input type="text" class="form-control" id="descricaoDespesa" placeholder="Ex: Compra de Material" required />
+              </div>
+              <div class="mb-3">
+                <label for="valorDespesa" class="form-label">Valor</label>
+                <input type="number" class="form-control" id="valorDespesa" placeholder="R$ 100,00" required />
+              </div>
+              <button type="submit" class="btn btn-danger">Salvar Despesa</button>
+            </form>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2025 Gleidiston Araujo - Todos os direitos reservados.</p>
+    </div>
+      
+
+    <script src="../assets/js/bootstrap.js"></script>
+    <script src="../assets/js/sweetAlert.js"></script>
+    <script src="../assets/js/chart.js"></script>
+    <script src="./home.js"></script>
+  </body>
+</html>
