@@ -15,6 +15,7 @@ router.get("/", (req: Request, res: Response) => {
  * Rota para criar usuário
  */
 router.post("/user", async (request: Request, response: Response) => { await UserController.create(request, response); });
+router.post("/user/auth", async (request: Request, response: Response) => { await UserController.auth(request, response); });
 
 
 export default router;
