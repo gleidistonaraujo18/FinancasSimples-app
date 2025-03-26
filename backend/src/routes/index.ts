@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import UserController from "../controllers/UserController";
+import authMiddleware from "../middleware/authMiddleware";
 
 const router = Router();
 
@@ -14,8 +15,9 @@ router.get("/", (req: Request, res: Response) => {
 /**
  * Rota para criar usuário
  */
-router.post("/user", async (request: Request, response: Response) => { await UserController.create(request, response); });
-router.post("/user/auth", async (request: Request, response: Response) => { await UserController.auth(request, response); });
+router.post("/user", authMiddleware, UserController.create);
+
+router.post("/user/auth", UserController.auth);
 
 
 export default router;
