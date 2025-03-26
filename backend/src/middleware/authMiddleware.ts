@@ -25,6 +25,7 @@ export default function authMiddleware(request: AuthRequest, response: Response,
 
         request.user = decoded as UserInterface;
         next();
+        
     });
 }
 
