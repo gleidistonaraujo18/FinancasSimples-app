@@ -81,6 +81,29 @@ class UserController {
         }
     }
 
+    public static async deleteById(request: Request, response: Response) {
+        try {
+
+            const id = parseInt(request.params.id);
+
+            if (isNaN(id) || id <= 0) throw new HttpError(400, "ID do usuário inválido ou não informado");
+
+            const deletedCount = await UserRepositorie.deleteById(id);
+
+            if (deletedCount === 0) throw new HttpError(404, "Usuário não encontrado");
+
+            return response.status(200).json({ status: 200, message: "Usuário deletado com sucesso" })
+
+        } catch (error) {
+            if (error instanceof HttpError) {
+                return response.status(error.statusCode).json({ status: error.statusCode, message: error.message });
+            }
+
+            console.error(error); // Logar erros inesperados
+            return response.status(500).json({ status: 500, message: "Erro interno do servidor" });
+        }
+    }
+
 }
 
 export default UserController;

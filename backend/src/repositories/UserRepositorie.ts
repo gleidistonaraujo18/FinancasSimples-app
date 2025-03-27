@@ -11,6 +11,10 @@ class UserRepositorie {
         return UserModel.findOne({ where: { email } });
     }
 
+    public static async deleteById(id: number): Promise<number> {
+        return UserModel.destroy({ where: { id } });
+    }
+
 }
 
 export default UserRepositorie;
