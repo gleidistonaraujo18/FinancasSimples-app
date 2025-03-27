@@ -123,6 +123,45 @@ class UserController {
             return response.status(500).json({ status: 500, message: "Erro interno do servidor" });
         }
     }
+    public static async update(request: Request, response: Response) {
+        try {
+            const id = parseInt(request.params.id);
+
+            if (isNaN(id) || id <= 0) throw new HttpError(400, "ID do usuário inválido. O ID deve ser um número positivo.");
+
+
+            if (!request.body || !Object.keys(request.body).length) throw new HttpError(400, "Você não informou nenhum dado para atualizar. Por favor, forneça os campos a serem atualizados.");
+
+            const { email } = request.body;
+
+            const existingUser = await UserRepositorie.findById(id);
+
+            if (!existingUser) throw new HttpError(404, "Usuário não encontrado. Verifique se o ID está correto.");
+
+            if (email) {
+
+                if (isInvalidEmail(email)) throw new HttpError(400, "Formato de e-mail inválido. Por favor, forneça um e-mail válido.");
+
+                const emailExists = await UserRepositorie.findByEmail(email);
+
+                if (emailExists) throw new HttpError(409, "E-mail já cadastrado. Escolha outro e-mail.");
+            }
+
+            const update = await UserRepositorie.update(id, request.body);
+
+            if (!update) throw new HttpError(400, "Erro ao atualizar os dados do usuário. Tente novamente mais tarde.");
+
+            return response.status(200).json({ status: 200, message: "Usuário atualizado com sucesso" });
+
+        } catch (error) {
+            if (error instanceof HttpError) {
+                return response.status(error.statusCode).json({ status: error.statusCode, message: error.message });
+            }
+
+            console.error(error); // Logar erros inesperados
+            return response.status(500).json({ status: 500, message: "Erro interno do servidor" });
+        }
+    }
 
 
 }

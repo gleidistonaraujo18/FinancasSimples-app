@@ -22,6 +22,19 @@ class UserRepositorie {
 
     }
 
+    public static async findById(id: number): Promise<UserInterface | null> {
+        return await UserModel.findByPk(id);
+    }
+
+
+    public static async update(id: number, user: UserInterface): Promise<boolean> {
+        const [affectedRows] = await UserModel.update(user, { where: { id } });
+
+        //Retorna true se tiver linhas afetadas
+        return affectedRows > 0;
+    }
+
+
 }
 
 export default UserRepositorie;

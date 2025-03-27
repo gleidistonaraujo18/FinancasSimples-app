@@ -18,6 +18,7 @@ router.get("/", (req: Request, res: Response) => {
 router.get("/users", authMiddleware, UserController.getAll);
 router.post("/user", authMiddleware, UserController.create);
 router.delete("/user/:id?", authMiddleware, UserController.deleteById);
+router.patch("/user/:id?", authMiddleware, UserController.update);
 router.post("/user/auth", UserController.auth);
 
 
