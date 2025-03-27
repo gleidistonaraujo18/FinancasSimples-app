@@ -15,6 +15,13 @@ class UserRepositorie {
         return UserModel.destroy({ where: { id } });
     }
 
+    public static async getAll(): Promise<object[]> {
+        return await UserModel.findAll({
+            attributes: ['name', 'email', 'resetPass', 'createdAt', 'updatedAt']
+        });
+
+    }
+
 }
 
 export default UserRepositorie;

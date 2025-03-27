@@ -15,9 +15,9 @@ router.get("/", (req: Request, res: Response) => {
 /**
  * Rota para criar usuário
  */
+router.get("/users", authMiddleware, UserController.getAll);
 router.post("/user", authMiddleware, UserController.create);
 router.delete("/user/:id?", authMiddleware, UserController.deleteById);
-
 router.post("/user/auth", UserController.auth);
 
 

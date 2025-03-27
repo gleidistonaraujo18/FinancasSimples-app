@@ -104,6 +104,27 @@ class UserController {
         }
     }
 
+    public static async getAll(request: Request, response: Response) {
+        try {
+
+            const users = await UserRepositorie.getAll();
+            if (users.length === 0) {
+                return response.status(200).json({ status: 200, message: "Não há usuários cadastrados" });
+            }
+
+            return response.status(200).json({ users });
+
+        } catch (error) {
+            if (error instanceof HttpError) {
+                return response.status(error.statusCode).json({ status: error.statusCode, message: error.message });
+            }
+
+            console.error(error); // Logar erros inesperados
+            return response.status(500).json({ status: 500, message: "Erro interno do servidor" });
+        }
+    }
+
+
 }
 
 export default UserController;
