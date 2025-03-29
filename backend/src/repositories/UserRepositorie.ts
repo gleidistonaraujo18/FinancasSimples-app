@@ -23,9 +23,8 @@ class UserRepositorie {
     }
 
     public static async findById(id: number): Promise<UserInterface | null> {
-        return await UserModel.findByPk(id);
+        return await UserModel.findByPk(id, { attributes: ['name', 'email', 'resetPass', 'createdAt', 'updatedAt'] });
     }
-
 
     public static async update(id: number, user: UserInterface): Promise<boolean> {
         const [affectedRows] = await UserModel.update(user, { where: { id } });
@@ -33,7 +32,6 @@ class UserRepositorie {
         //Retorna true se tiver linhas afetadas
         return affectedRows > 0;
     }
-
 
 }
 
