@@ -1,7 +1,7 @@
 import { isInvalidEmail, validateRequiredFields } from "../utils/validators/Validators";
 import HttpError from "../utils/errors/Erro";
 import { Request, Response } from "express";
-import UserRepositorie from "../repositories/UserRepositorie";
+import UserRepository from "../repositories/UserRepository";
 import bcrypt from 'bcrypt'
 
 
@@ -12,15 +12,17 @@ class UserController {
         try {
             const { name, email, password, resetPass } = request.body;
 
-            validateRequiredFields({ name, email, password });
+            const validationError = validateRequiredFields({ name, email, password, resetPass });
+
+            if (validationError) return response.status(400).json(validationError);
 
             if (isInvalidEmail(email)) throw new HttpError(400, "Formato de e-mail inválido.");
 
-            if (await UserRepositorie.findByEmail(email)) throw new HttpError(400, "E-mail já cadastrado.");
+            if (await UserRepository.findByEmail(email)) throw new HttpError(400, "E-mail já cadastrado.");
 
             const hash = await bcrypt.hash(password, 10);
 
-            await UserRepositorie.create({ name, email, password: hash, resetPass });
+            await UserRepository.create({ name, email, password: hash, resetPass });
 
             return response.status(201).json({ status: 201, message: "Usuário criado com sucesso" });
 
@@ -41,7 +43,7 @@ class UserController {
 
             if (isNaN(id) || id <= 0) throw new HttpError(400, "ID do usuário inválido ou não informado");
 
-            const deletedCount = await UserRepositorie.deleteById(id);
+            const deletedCount = await UserRepository.deleteById(id);
 
             if (deletedCount === 0) throw new HttpError(404, "Usuário não encontrado");
 
@@ -60,7 +62,7 @@ class UserController {
     public static async getAll(request: Request, response: Response) {
         try {
 
-            const users = await UserRepositorie.getAll();
+            const users = await UserRepository.getAll();
             if (users.length === 0) {
                 return response.status(200).json({ status: 200, message: "Não há usuários cadastrados" });
             }
@@ -87,7 +89,7 @@ class UserController {
 
             const { email } = request.body;
 
-            const existingUser = await UserRepositorie.findById(id);
+            const existingUser = await UserRepository.findById(id);
 
             if (!existingUser) throw new HttpError(404, "Usuário não encontrado. Verifique se o ID está correto.");
 
@@ -95,12 +97,12 @@ class UserController {
 
                 if (isInvalidEmail(email)) throw new HttpError(400, "Formato de e-mail inválido. Por favor, forneça um e-mail válido.");
 
-                const emailExists = await UserRepositorie.findByEmail(email);
+                const emailExists = await UserRepository.findByEmail(email);
 
                 if (emailExists) throw new HttpError(409, "E-mail já cadastrado. Escolha outro e-mail.");
             }
 
-            const update = await UserRepositorie.update(id, request.body);
+            const update = await UserRepository.update(id, request.body);
 
             if (!update) throw new HttpError(400, "Erro ao atualizar os dados do usuário. Tente novamente mais tarde.");
 
@@ -123,7 +125,7 @@ class UserController {
 
             if (isNaN(id) || id <= 0) throw new HttpError(400, "ID do usuário inválido. O ID deve ser um número positivo.");
 
-            const user = await UserRepositorie.findById(id);
+            const user = await UserRepository.findById(id);
 
             if (!user) throw new HttpError(404, "Usuário não encontrado");
 
