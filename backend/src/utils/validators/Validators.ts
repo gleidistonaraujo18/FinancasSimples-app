@@ -1,11 +1,17 @@
 import HttpError from "../errors/Erro";
 
-export function validateRequiredFields(fields: { [key: string]: any }): void {
+export function validateRequiredFields(fields: { [key: string]: any }) {
     const missingFields = Object.keys(fields).filter(field => !fields[field]);
 
     if (missingFields.length > 0) {
-        throw new HttpError(400, `Os seguintes campos são obrigatórios e não foram preenchidos: ${missingFields.join(', ')}`);
+        return {
+            status: 400,
+            message: "Os seguintes campos são obrigatórios e não foram preenchidos:",
+            campos: missingFields
+        };
     }
+
+    return null;
 }
 
 export function isInvalidEmail(email: string): boolean {

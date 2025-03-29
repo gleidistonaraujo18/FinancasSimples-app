@@ -1,7 +1,7 @@
 import UserModel from "../models/UserModel";
 import UserInterface from "../interfaces/UserInterface";
 
-class UserRepositorie {
+class UserRepository{
 
     public static async create(user: UserInterface): Promise<UserModel> {
         return await UserModel.create({ name: user.name, email: user.email, password: user.password, resetPass: user.resetPass });
@@ -35,4 +35,4 @@ class UserRepositorie {
 
 }
 
-export default UserRepositorie;
+export default UserRepository;

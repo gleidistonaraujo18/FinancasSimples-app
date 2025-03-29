@@ -1,7 +1,7 @@
 import { isInvalidEmail, validateRequiredFields } from "../utils/validators/Validators";
 import HttpError from "../utils/errors/Erro";
 import { Request, Response } from "express";
-import UserRepositorie from "../repositories/UserRepositorie";
+import UserRepository from "../repositories/UserRepository";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
@@ -14,7 +14,7 @@ class AuthController {
 
             if (isInvalidEmail(email)) throw new HttpError(400, "Formato de e-mail inválido.");
 
-            const user = await UserRepositorie.findByEmail(email);
+            const user = await UserRepository.findByEmail(email);
 
             if (!user) throw new HttpError(401, "E-mail ou senha inválidos");
 
