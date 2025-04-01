@@ -3,5 +3,14 @@ export interface FinanceInterface {
     description: string,
     type: 'despesas' | 'receitas' | 'investimento',
     value: number,
-    userId: number
+    userId: number,
+    createdAt?: Date,
+    updatedAt?: Date
+}
+
+export interface TransactionInterface {
+    type?: string,
+    userId: number,
+    startDate: Date,
+    endDate: Date
 }

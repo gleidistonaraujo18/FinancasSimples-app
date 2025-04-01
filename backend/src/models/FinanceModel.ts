@@ -1,6 +1,7 @@
 import { FinanceInterface } from "../interfaces/FinanceInterface";
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../config/database";
+
 class FinanceModel extends Model implements FinanceInterface {
     public id!: number
     public description!: string;

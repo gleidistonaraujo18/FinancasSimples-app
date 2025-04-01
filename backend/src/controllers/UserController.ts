@@ -8,6 +8,11 @@ import bcrypt from 'bcrypt'
 
 class UserController {
 
+    /**
+      * @param {Request} request - O objeto de requisição.
+      * @param {Response} response - O objeto de resposta.
+      */
+
     public static async create(request: Request, response: Response) {
         try {
             const { name, email, password, resetPass } = request.body;
