@@ -46,6 +46,17 @@ class FinanceRepository {
             }
         })
     }
+
+    public static async getById(userId: number): Promise<FinanceModel | null> {
+        return await FinanceModel.findByPk(userId);
+    }
+
+    public static async update(id: number, transaction: FinanceInterface) {
+        const [affectedRows] = await FinanceModel.update(transaction, { where: { id } });
+
+        //Retorna true se tiver linhas afetadas
+        return affectedRows > 0;
+    }
 }
 
 export default FinanceRepository;
